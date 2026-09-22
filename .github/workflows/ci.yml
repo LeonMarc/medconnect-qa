@@ -24,5 +24,8 @@ jobs:
       - name: Instalar navegador
         run: npx playwright install --with-deps chromium
 
-      - name: Correr los tests
+      - name: Correr tests de API y e2e
         run: npx playwright test
+
+      - name: Correr tests de BDD
+        run: npm run test:bdd
