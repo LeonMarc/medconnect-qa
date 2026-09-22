@@ -1,0 +1,18 @@
+{
+  "name": "automation-practice-6",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:bdd": "bddgen --config playwright.bdd.config.ts && playwright test --config playwright.bdd.config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "playwright-bdd": "^9.2.1"
+  }
+}

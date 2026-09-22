@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedConnect — Publicaciones</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #f0f4f8; margin: 0; }
+    header { background: #0b6b8a; color: #fff; padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center; }
+    header a { color: #fff; text-decoration: none; font-size: .9rem; }
+    main { max-width: 640px; margin: 1.5rem auto; padding: 0 1rem; }
+    .pub { background: #fff; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+    .pub h3 { margin: 0 0 .35rem; color: #123; font-size: 1.05rem; }
+    .pub .meta { color: #667; font-size: .82rem; }
+    .tag { display: inline-block; background: #e1f0f5; color: #0b6b8a;
+      border-radius: 999px; padding: .1rem .6rem; font-size: .72rem; margin-top: .4rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <span data-testid="feed-greeting">Publicaciones</span>
+    <a href="/profile" data-testid="nav-profile">Mi perfil</a>
+  </header>
+  <main data-testid="feed-list"></main>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Sin sesión no se puede ver el feed: redirige al login.
+      window.location.href = '/login';
+    } else {
+      const name = localStorage.getItem('userName') || '';
+      document.querySelector('[data-testid="feed-greeting"]').textContent =
+        'Hola, ' + name;
+
+      fetch('/api/publications')
+        .then((r) => r.json())
+        .then(({ publications }) => {
+          const list = document.querySelector('[data-testid="feed-list"]');
+          list.innerHTML = publications
+            .map(
+              (p) => `
+            <article class="pub" data-testid="pub-card">
+              <h3 data-testid="pub-title">${p.title}</h3>
+              <div class="meta">${p.author}</div>
+              <span class="tag">${p.specialty}</span>
+            </article>`
+            )
+            .join('');
+        });
+    }
+  </script>
+</body>
+</html>
